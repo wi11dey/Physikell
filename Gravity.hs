@@ -2,6 +2,7 @@
 {-# LANGUAGE OverloadedLabels #-}
 {-# LANGUAGE MonadComprehensions #-}
 {-# LANGUAGE TupleSections #-}
+{-# LANGUAGE TypeOperators #-}
 
 class Script s
   fromSubscript :: Subscript → s
