@@ -34,5 +34,5 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > laplacian f (fmap value → x) = (tr <$> hessianF (f . volume) x)/<square metre
 >
 > hamiltonian ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
-> hamiltonian potential (fmap (:+ 0) → m) (dimensionless → ψ) x =
+> hamiltonian potential (fmap pure → m) (dimensionless → ψ) x =
 >   square ħ>/<(pure (-2)*<m) >*< laplacian ψ x >+< (ψ x *< pure <$> potential x)
