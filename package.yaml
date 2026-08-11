@@ -7,6 +7,9 @@ dependencies:
   - physics
 library:
   source-dirs: .
+  exposed-modules:
+    - Schrodinger
+  other-modules: []
   default-extensions:
     - ConstraintKinds
     - RankNTypes
