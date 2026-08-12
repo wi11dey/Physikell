@@ -14,17 +14,24 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 
 > type Wavefunction u = ∀r.Differentiable r ⇒ [Metre r] → u (Complex r)
 
-> dimensionless ∷ Wavefunction Identity → (∀r. Differentiable r ⇒ [Metre r] → Complex r)
-> dimensionless = (runIdentity .)
+> real ∷ Num r ⇒ r → Complex r
+> real = (:+ 0)
 
-> gaussian ∷ Wavefunction Identity
-> gaussian (fmap value → x) = pure $ pure $ exp $ -(sum $ x <&> (^2))/2
+> π ∷ Floating a ⇒ a
+> π = pi
 
 > ħ ∷ Floating a ⇒ (Joule >*< Second) a
 > ħ = fromSI reducedPlanckConstant
 
 > m_e ∷ Floating a ⇒ Kilogram a
 > m_e = fromSI electronMass
+
+> dimensionless ∷ Wavefunction Identity → (∀r. Differentiable r ⇒ [Metre r] → Complex r)
+> dimensionless = (runIdentity .)
+
+> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → Wavefunction Identity
+> gaussian μ σ (fmap value → x) = pure $ real $
+>   1/(sqrt $ 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
 > tr ∷ Num t ⇒ [[t]] → t
 > tr matrix = sum (zipWith (!!) matrix [0..])
@@ -44,8 +51,8 @@ iħ d/dt |psi x t> = H |psi>
 |psi> :: R^3 -> C
 
 > hamiltonian ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
-> hamiltonian potential (fmap pure → m) (dimensionless → ψ) x =
->   square ħ>/<(pure (-2)*<m) >*< laplacian ψ x >+< (ψ x *< pure <$> potential x)
+> hamiltonian potential (fmap real → m) (dimensionless → ψ) x =
+>   square ħ>/<(real (-2)*<m) >*< laplacian ψ x >+< (ψ x *< real <$> potential x)
 
 = Integration
 
