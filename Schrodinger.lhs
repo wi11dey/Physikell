@@ -43,3 +43,7 @@ iħ d/dt |psi x t> = H |psi>
 > hamiltonian ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
 > hamiltonian potential (fmap pure → m) (dimensionless → ψ) x =
 >   square ħ>/<(pure (-2)*<m) >*< laplacian ψ x >+< (ψ x *< pure <$> potential x)
+
+= Integration
+
+> test = hamiltonian (\_ → 0 *< joule) m_e
