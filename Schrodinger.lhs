@@ -1,3 +1,5 @@
+I try to stay as close to how physicists write as possible within the bounds of Haskell, and then try to maintain as much numerical accuracy while staying within those bounds
+
 > module Schrodinger where
 
 > import Physics.Units.Planck
