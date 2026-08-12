@@ -56,4 +56,4 @@ iħ d/dt |psi x t> = H |psi>
 
 = Integration
 
-> test = hamiltonian (\_ → 0 *< joule) m_e
+> test = hamiltonian (\_ → 0 *< joule) m_e $ gaussian 1 0.5
