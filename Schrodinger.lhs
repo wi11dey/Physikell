@@ -20,6 +20,9 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > ħ ∷ Floating a ⇒ (Joule >*< Second) a
 > ħ = fromSI reducedPlanckConstant
 
+> m_e ∷ Floating a ⇒ Kilogram a
+> m_e = fromSI electronMass
+
 > tr ∷ Num t ⇒ [[t]] → t
 > tr matrix = sum (zipWith (!!) matrix [0..])
 
@@ -28,6 +31,14 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 
 > laplacian ∷ (Functor g, Differentiable a, Fractional (g a)) ⇒ (∀r.Differentiable r ⇒ [Metre r] → g r) → [Metre a] → (One >/< Square Metre) (g a)
 > laplacian f (fmap value → x) = (tr <$> hessianF (f . volume) x)/<square metre
+
+H|psi> = (T + V)|psi>
+
+iħ d/dt |psi x t> = H |psi>
+
+(hat H) |psi>
+
+|psi> :: R^3 -> C
 
 > hamiltonian ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
 > hamiltonian potential (fmap pure → m) (dimensionless → ψ) x =
