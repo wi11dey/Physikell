@@ -26,7 +26,7 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > m_e ∷ Floating a ⇒ Kilogram a
 > m_e = fromSI electronMass
 
-> dimensionless ∷ Wavefunction Identity → (∀r. Differentiable r ⇒ [Metre r] → Complex r)
+> dimensionless ∷ Wavefunction Identity → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
 > dimensionless = (runIdentity .)
 
 > gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → Wavefunction Identity
