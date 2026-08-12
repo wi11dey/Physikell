@@ -57,3 +57,6 @@ iħ d/dt |psi x t> = H |psi>
 = Integration
 
 > test = hamiltonian (\_ → 0 *< joule) m_e $ gaussian 1 0.5
+
+> integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction Identity → Wavefunction Joule) → Wavefunction Identity
+> integrate stepSize ψ₀ = undefined
