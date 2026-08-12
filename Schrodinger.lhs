@@ -17,6 +17,9 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > dimensionless ∷ Wavefunction Identity → (∀r. Differentiable r ⇒ [Metre r] → Complex r)
 > dimensionless = (runIdentity .)
 
+> gaussian ∷ Wavefunction Identity
+> gaussian (fmap value → x) = pure $ pure $ exp $ -(sum $ x <&> (^2))/2
+
 > ħ ∷ Floating a ⇒ (Joule >*< Second) a
 > ħ = fromSI reducedPlanckConstant
 
