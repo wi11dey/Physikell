@@ -50,13 +50,13 @@ iħ d/dt |psi x t> = H |psi>
 
 |psi> :: R^3 -> C
 
-> singleParticleEnergy ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
-> singleParticleEnergy potential (fmap real → m) (dimensionless → ψ) x =
+> singleParticleH ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
+> singleParticleH potential (fmap real → m) (dimensionless → ψ) x =
 >   square ħ>/<(real (-2)*<m) >*< laplacian ψ x >+< (ψ x *< real <$> potential x)
 
 = Integration
 
-> integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction Identity → Wavefunction Joule) → Wavefunction Identity → (∀r.Differentiable r ⇒ Second r) → Wavefunction Identity
-> integrate stepSize hamiltonian ψ₀ t = undefined
+> integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction Identity → Wavefunction Joule) → Wavefunction Identity → [Wavefunction Identity]
+> integrate stepSize hamiltonian ψ₀ = ψ₀ : integrate stepSize hamiltonian ψ₀ -- TODO
 
-> test = integrate (1*<second) (singleParticleEnergy (const $ 0 *< joule) m_e) (gaussian 1 0.5)
+> test = integrate (1*<second) (singleParticleH (const $ 0 *< joule) m_e) (gaussian 1 0.5)

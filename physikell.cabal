@@ -9,6 +9,7 @@ library
       Schrodinger
   default-extensions:
       ConstraintKinds
+      ImpredicativeTypes
       Rank2Types
       TypeOperators
       UnicodeSyntax
