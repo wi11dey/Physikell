@@ -14,7 +14,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 
 TODO: should make a type that contains coordinates of n dimensions along with the metric at that point
 
-> type Wavefunction u = ∀r.Differentiable r ⇒ [Metre r] → u (Complex r)
+> type Wavefunction unit = ∀r.Differentiable r ⇒ [Metre r] → unit (Complex r)
 
 > real ∷ Num r ⇒ r → Complex r
 > real = (:+ 0)
