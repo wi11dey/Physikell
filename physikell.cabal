@@ -8,6 +8,7 @@ library
   exposed-modules:
       Schrodinger
   default-extensions:
+      BlockArguments
       ConstraintKinds
       ImpredicativeTypes
       Rank2Types

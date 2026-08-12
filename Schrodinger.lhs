@@ -17,6 +17,9 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > real ∷ Num r ⇒ r → Complex r
 > real = (:+ 0)
 
+> i ∷ Num r ⇒ Complex r
+> i = 0 :+ 1
+
 > π ∷ Floating a ⇒ a
 > π = pi
 
@@ -57,7 +60,8 @@ iħ d/dt |psi x t> = H |psi>
 = Integration
 
 > integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction Identity → Wavefunction Joule) → Wavefunction Identity → [Wavefunction Identity]
-> integrate stepSize hamiltonian ψ₀ = ψ₀ : integrate stepSize hamiltonian ψ₀ -- TODO
+> integrate stepSize hamiltonian ψ = ψ:integrate stepSize hamiltonian \x → pure $
+>   dimensionless ψ x - i*(value $ hamiltonian ψ x >/< ħ >*< (real <$> stepSize))
 
 > test = integrate (1*<second) (singleParticleH (const $ 0 *< joule) m_e) (gaussian 1 0.5)
 
