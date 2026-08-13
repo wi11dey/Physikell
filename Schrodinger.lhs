@@ -20,6 +20,8 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 
 Bra
 
+Should have wavefunction track a rough bounding box
+
 > (<|) ∷ Wavefunction unit → (∀r.Differentiable r ⇒ Wavefunction unit → unit r)
 > (<|) φ ψ = undefined
 
