@@ -18,7 +18,20 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 
 > type Wavefunction unit = ∀r.Differentiable r ⇒ [Metre r] → unit (Complex r)
 
+Bra
+
+> (<|) ∷ Wavefunction unit → (∀r.Differentiable r ⇒ Wavefunction unit → unit r)
+> (<|) = undefined
+
+TODO: Ket
+
 > type Operator unit = Wavefunction One → Wavefunction unit
+>
+> position ∷ Operator Metre
+> position = undefined
+>
+> momentum ∷ Operator (Kilogram >*< Metre >/< Second)
+> momentum = undefined
 
 > real ∷ Ring r ⇒ r → Complex r
 > real = (:+ 0)

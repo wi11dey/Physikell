@@ -11,6 +11,7 @@ library
       BlockArguments
       ConstraintKinds
       ImpredicativeTypes
+      PostfixOperators
       Rank2Types
       TypeOperators
       UnicodeSyntax
