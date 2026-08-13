@@ -8,6 +8,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Physics.Units.Convert
 > import Data.Complex
 > import Data.Functor
+> import Data.Coerce
 > import Numeric.AD
 
 > type Ring n = Num n
@@ -56,7 +57,7 @@ Ket
 > dimensionless ∷ Wavefunction One → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
 > dimensionless = (value .) . eval
 
-> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ [Metre r] → One (Complex r))
+> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → (∀r.(Differentiable r, Coercible (unit r) r) ⇒ [unit r] → One (Complex r))
 > gaussian μ σ (fmap value → x) = pure $ real $
 >   1/(sqrt 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
