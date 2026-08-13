@@ -2,7 +2,16 @@ cabal-version: 1.12
 
 name:           nature
 version:        0.1.0.0
-build-type:     Simple
+build-type:     Custom
+
+custom-setup
+  setup-depends:
+      base
+    , Cabal
+    , graphmod
+    , graphviz
+    , silently
+    , text
 
 library
   exposed-modules:

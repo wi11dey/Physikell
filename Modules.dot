@@ -1,0 +1,6 @@
+digraph G {
+size="6,4";
+ratio="fill";
+u0[label="Schrodinger",style="filled",fillcolor="#bbffbb",penwidth="0"];
+
+}
