@@ -8,7 +8,6 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Physics.Units.Convert
 > import Data.Complex
 > import Data.Functor
-> import Data.Functor.Identity
 > import Numeric.AD
 
 > type Ring n = Num n
@@ -18,6 +17,8 @@ I try to stay as close to how physicists write as possible within the bounds of 
 TODO: should make a type that contains coordinates of n dimensions along with the metric at that point
 
 > type Wavefunction unit = ∀r.Differentiable r ⇒ [Metre r] → unit (Complex r)
+
+> type Operator unit = Wavefunction One → Wavefunction unit
 
 > real ∷ Ring r ⇒ r → Complex r
 > real = (:+ 0)
@@ -34,10 +35,10 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > mₑ ∷ Real n ⇒ Kilogram n
 > mₑ = fromSI electronMass
 
-> dimensionless ∷ Wavefunction Identity → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
-> dimensionless = (runIdentity .)
+> dimensionless ∷ Wavefunction One → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
+> dimensionless = (value .)
 
-> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → Wavefunction Identity
+> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → Wavefunction One
 > gaussian μ σ (fmap value → x) = pure $ real $
 >   1/(sqrt $ 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
@@ -58,13 +59,13 @@ iħ d/dt |psi x t> = H |psi>
 
 |psi> :: R^3 -> C
 
-> singleParticleH ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction Identity → Wavefunction Joule
+> singleParticleH ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
 > singleParticleH potential (fmap real → m) (dimensionless → ψ) x =
 >   square ħ>/<(real (-2)*<m) >*< laplacian ψ x >+< (ψ x *< real <$> potential x)
 
 = Integration
 
-> integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction Identity → Wavefunction Joule) → Wavefunction Identity → [Wavefunction Identity]
+> integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction One → Wavefunction Joule) → Wavefunction One → [Wavefunction One]
 > integrate stepSize hamiltonian ψ = ψ:integrate stepSize hamiltonian \x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ x >/< ħ >*< (real <$> stepSize))
 
