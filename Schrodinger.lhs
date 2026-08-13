@@ -40,7 +40,7 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 
 > gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → Wavefunction One
 > gaussian μ σ (fmap value → x) = pure $ real $
->   1/(sqrt $ 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
+>   1/(sqrt 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
 > tr ∷ Ring t ⇒ [[t]] → t
 > tr matrix = sum (zipWith (!!) matrix [0..])
