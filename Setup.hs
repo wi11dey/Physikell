@@ -19,7 +19,7 @@ main =
   { postBuild = \args flags packageDescription localBuildInfo → do
       postBuild simpleUserHooks args flags packageDescription localBuildInfo
 
-      (output, ()) ← capture $ graphmod ["--quiet"]
+      output ← capture_ $ graphmod ["--quiet"]
       writeFile "Modules.dot" output
 
       hasGraphviz ← isGraphvizInstalled
