@@ -2,6 +2,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 
 > module Schrodinger where
 
+> import Prelude hiding (Real)
 > import Physics.Units.Planck
 > import Physics.Units.Constants
 > import Physics.Units.Convert
@@ -10,26 +11,28 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Data.Functor.Identity
 > import Numeric.AD
 
+> type Ring n = Num n
+> type Real n = Floating n
 > type Differentiable n = RealFloat n
 
 TODO: should make a type that contains coordinates of n dimensions along with the metric at that point
 
 > type Wavefunction unit = ∀r.Differentiable r ⇒ [Metre r] → unit (Complex r)
 
-> real ∷ Num r ⇒ r → Complex r
+> real ∷ Ring r ⇒ r → Complex r
 > real = (:+ 0)
 
-> i ∷ Num r ⇒ Complex r
+> i ∷ Ring r ⇒ Complex r
 > i = 0 :+ 1
 
-> π ∷ Floating a ⇒ a
+> π ∷ Real n ⇒ n
 > π = pi
 
-> ħ ∷ Floating a ⇒ (Joule >*< Second) a
+> ħ ∷ Real n ⇒ (Joule >*< Second) n
 > ħ = fromSI reducedPlanckConstant
 
-> m_e ∷ Floating a ⇒ Kilogram a
-> m_e = fromSI electronMass
+> mₑ ∷ Real n ⇒ Kilogram n
+> mₑ = fromSI electronMass
 
 > dimensionless ∷ Wavefunction Identity → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
 > dimensionless = (runIdentity .)
@@ -38,10 +41,10 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 > gaussian μ σ (fmap value → x) = pure $ real $
 >   1/(sqrt $ 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
-> tr ∷ Num t ⇒ [[t]] → t
+> tr ∷ Ring t ⇒ [[t]] → t
 > tr matrix = sum (zipWith (!!) matrix [0..])
 
-> volume ∷ Num r ⇒ [r] → [Metre r]
+> volume ∷ Ring r ⇒ [r] → [Metre r]
 > volume = fmap (*< metre)
 
 > laplacian ∷ (Functor g, Differentiable a, Fractional (g a)) ⇒ (∀r.Differentiable r ⇒ [Metre r] → g r) → [Metre a] → (One >/< Square Metre) (g a)
@@ -65,7 +68,7 @@ iħ d/dt |psi x t> = H |psi>
 > integrate stepSize hamiltonian ψ = ψ:integrate stepSize hamiltonian \x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ x >/< ħ >*< (real <$> stepSize))
 
-> test = integrate (1*<second) (singleParticleH (const $ 0 *< joule) m_e) (gaussian 1 0.5)
+> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< joule) mₑ) (gaussian 0 0.00005)
 
 Consider bold(Crank–Nicolson), split-operator evolution, or a matrix exponential.
 
