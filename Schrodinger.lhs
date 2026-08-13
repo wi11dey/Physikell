@@ -16,7 +16,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 
 TODO: should make a type that contains coordinates of n dimensions along with the metric at that point
 
-> type Wavefunction unit = ∀r.Differentiable r ⇒ [Metre r] → unit (Complex r)
+> newtype Wavefunction unit = Wavefunction { eval ∷ ∀r.Differentiable r ⇒ [Metre r] → unit (Complex r) }
 
 Bra
 
@@ -25,7 +25,10 @@ Should have wavefunction track a rough bounding box
 > (<|) ∷ Wavefunction unit → (∀r.Differentiable r ⇒ Wavefunction unit → unit r)
 > (<|) φ ψ = undefined
 
-TODO: Ket
+Ket
+
+> (|>) ∷ (∀r.Differentiable r ⇒ [Metre r] → unit (Complex r)) → Wavefunction unit
+> (|>) = Wavefunction
 
 > type Operator unit = Wavefunction One → Wavefunction unit
 >
@@ -51,9 +54,9 @@ TODO: Ket
 > mₑ = fromSI electronMass
 
 > dimensionless ∷ Wavefunction One → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
-> dimensionless = (value .)
+> dimensionless = (value .) . eval
 
-> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → Wavefunction One
+> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ [Metre r] → One (Complex r))
 > gaussian μ σ (fmap value → x) = pure $ real $
 >   1/(sqrt 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
@@ -75,16 +78,16 @@ iħ d/dt |psi x t> = H |psi>
 |psi> :: R^3 -> C
 
 > singleParticleH ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
-> singleParticleH potential (fmap real → m) (dimensionless → ψ) x =
->   square ħ>/<(real (-2)*<m) >*< laplacian ψ x >+< (ψ x *< real <$> potential x)
+> singleParticleH potential m (dimensionless → ψ) = ((\x →
+>   square ħ>/<(real <$> (-2)*<m) >*< laplacian ψ x >+< (ψ x *< real <$> potential x)) |>)
 
 = Integration
 
 > integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction One → Wavefunction Joule) → Wavefunction One → [Wavefunction One]
-> integrate stepSize hamiltonian ψ = ψ:integrate stepSize hamiltonian \x → pure $
->   dimensionless ψ x - i*(value $ hamiltonian ψ x >/< ħ >*< (real <$> stepSize))
+> integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
+>   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (real <$> stepSize))) |>)
 
-> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< joule) mₑ) (gaussian 0 0.00005)
+> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< joule) mₑ) (gaussian 0 0.00005 |>)
 
 Consider bold(Crank–Nicolson), split-operator evolution, or a matrix exponential.
 
