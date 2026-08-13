@@ -18,8 +18,10 @@ main =
   defaultMainWithHooks simpleUserHooks
   { postBuild = \args flags packageDescription localBuildInfo → do
       postBuild simpleUserHooks args flags packageDescription localBuildInfo
+
       (output, ()) ← capture $ graphmod ["--quiet"]
       writeFile "Modules.dot" output
+
       hasGraphviz ← isGraphvizInstalled
       if hasGraphviz then do
         void $ runGraphviz (parseDotGraph (Text.pack output) ∷ DotGraph String) Svg "Modules.svg"
