@@ -2,16 +2,14 @@
 
 module Main (main) where
 
-import Control.Exception (SomeException, displayException, try)
 import Control.Monad (void)
-import Data.GraphViz.Commands (GraphvizOutput (Svg), isGraphvizInstalled, runGraphviz)
-import Data.GraphViz.Types (parseDotGraph)
-import Data.GraphViz.Types.Canonical (DotGraph)
-import qualified Data.Text.Lazy as Text
+import Data.GraphViz.Commands
+import Data.GraphViz.Types
+import Data.GraphViz.Types.Generalised
 import Distribution.Simple
-import Graphmod (graphmod)
-import System.IO (hPutStrLn, stderr)
-import System.IO.Silently (capture)
+import Graphmod
+import System.IO.Silently
+import qualified Data.Text.Lazy as Text
 
 main ∷ IO ()
 main =

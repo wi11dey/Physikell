@@ -15,7 +15,8 @@ custom-setup
 
 library
   exposed-modules:
-      Schrodinger
+      Physics.Quantum.Dirac
+      Physics.Mechanics
   default-extensions:
       BlockArguments
       ConstraintKinds
