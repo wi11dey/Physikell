@@ -21,7 +21,7 @@ TODO: should make a type that contains coordinates of n dimensions along with th
 Bra
 
 > (<|) ∷ Wavefunction unit → (∀r.Differentiable r ⇒ Wavefunction unit → unit r)
-> (<|) = undefined
+> (<|) φ ψ = undefined
 
 TODO: Ket
 
