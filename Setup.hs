@@ -1,8 +1,6 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
-module Main (main) where
-
-import Control.Monad (void)
+import Control.Monad
 import Data.GraphViz.Commands
 import Data.GraphViz.Types
 import Data.GraphViz.Types.Generalised
