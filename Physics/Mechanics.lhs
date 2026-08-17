@@ -36,7 +36,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > tr matrix = sum (zipWith (!!) matrix [0..])
 
 > volume ∷ Ring.C r ⇒ [r] → [Metre r]
-> volume = fmap (*< metre)
+> volume = fmap (*< unit @Metre)
 
 > hessian :: (Traversable f, Functor g) ⇒ (∀r. RealTranscendental.C r ⇒ f r → g r) → f r → g (f (f r))
 > hessian f = undefined
@@ -62,10 +62,10 @@ iħ d/dt |psi x t> = H |psi>
 > integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (ℂ.fromReal <$> stepSize))) |>)
 
-> units :: (Functor f, f ~ Planck metre0 kilogram0 second0 coulomb0 kelvin0, Ring.C r) => f r
-> units = Planck 1
+> unit :: (Functor f, f ~ Planck metre0 kilogram0 second0 coulomb0 kelvin0, Ring.C r) => f r
+> unit = Planck 1
 
-> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< units @Joule) mₑ) (gaussian 0 0.00005 |>)
+> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< unit @Joule) mₑ) (gaussian 0 0.00005 |>)
 
 Consider bold(Crank–Nicolson), split-operator evolution, or a matrix exponential.
 

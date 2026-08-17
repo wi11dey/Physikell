@@ -64,7 +64,7 @@ where
 import Data.Coerce
 import Data.Functor
 import Physics.Units.Type
-import Physics.Units.Arithmetic hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube)
+import Physics.Units.Arithmetic hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube, unit)
 import Physics.Units.Constants
 import Physics.Units.Convert
 import Physics.Units.Planck ( One,
