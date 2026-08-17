@@ -10,8 +10,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Data.Coerce
 > import Numeric.AD hiding (hessian)
 > import qualified Numeric.AD
-> import NumericPrelude
-> import Algebra.Module ((*>))
+> import NumericPrelude hiding ((*>))
 > import qualified Algebra.Transcendental as Transcendental
 > import qualified Algebra.RealTranscendental as RealTranscendental
 > import qualified Algebra.Ring as Ring
@@ -54,7 +53,7 @@ iħ d/dt |psi x t> = H |psi>
 
 > singleParticleH ∷ (∀r.RealTranscendental.C r ⇒ [Metre r] → Joule r) → (∀r.RealTranscendental.C r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
 > singleParticleH potential m (dimensionless → ψ) = ((\x →
->   square ħ>/<(ℂ.fromReal <$> (-2)*>m) >*< laplacian ψ x >+< (ψ x *> ℂ.fromReal <$> potential x)) |>)
+>   square ħ>/<(ℂ.fromReal <$> (-2)*>m) >*< laplacian ψ x >+< (ψ x *> (ℂ.fromReal <$> potential x))) |>)
 
 = Integration
 

@@ -1,7 +1,8 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module Physics.DimensionalAnalysis
-  ( (>+<),
+  ( (*>),
+    (>+<),
     (>-<),
     (>*<),
     (>/<),
@@ -31,11 +32,11 @@ import qualified Algebra.Transcendental as Transcendental
 import qualified Algebra.DivisibleSpace as DivisibleSpace
 import qualified Algebra.Absolute as Absolute
 import MathObj.Wrapper.NumericPrelude
-import Control.Applicative
+import Control.Applicative (Applicative, pure, (<*>))
 import Data.Proxy
 import GHC.TypeLits
 import Data.Type.Equality
-import NumericPrelude
+import NumericPrelude hiding ((*>))
 import Algebra.Additive
 import qualified Algebra.Module as Module
 import qualified Algebra.VectorSpace as VectorSpace
@@ -86,3 +87,9 @@ instance Field.C t ⇒ VectorSpace.C t (Planck m kg s c k t)
 instance Field.C t ⇒ DivisibleSpace.C t (Planck m kg s c k t) where
   Planck x </> Planck y = x / y
 
+class Module.C a v ⇒ ModuleFD a v | v -> a
+
+instance Ring.C r ⇒ ModuleFD r (Planck m kg s c k r)
+
+(*>) :: ModuleFD a v => a -> v -> v
+(*>) = (Module.*>)

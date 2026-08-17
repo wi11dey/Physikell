@@ -23,6 +23,7 @@ library
       ConstraintKinds
       DataKinds
       FlexibleInstances
+      FunctionalDependencies
       MultiParamTypeClasses
       PostfixOperators
       Rank2Types
