@@ -61,7 +61,7 @@ iħ d/dt |psi x t> = H |psi>
 > integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (ℂ.fromReal <$> stepSize))) |>)
 
-> test = integrate (0.00001*<unit @Second) (singleParticleH (const $ 0 *< unit @Joule) mₑ) (gaussian 0 0.00005 |>)
+> test = integrate (0.00001*<unit @Second) (singleParticleH (const $ 0*<unit @Joule) mₑ) (gaussian 0 0.00005 |>)
 
 Consider bold(Crank–Nicolson), split-operator evolution, or a matrix exponential.
 
