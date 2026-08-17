@@ -1,0 +1,1 @@
+* TODO Reduce classes in constants down to Transcendental only

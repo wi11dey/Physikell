@@ -23,7 +23,6 @@ module Physics.DimensionalAnalysis
     Ohm,
     Weber,
     Henry,
-    one,
     metre,
     kilogram,
     second,
@@ -48,6 +47,7 @@ module Physics.DimensionalAnalysis
     weber,
     henry,
     (*<),
+    (>+<),
     ħ,
     mₑ,
     module Physics.Units.Arithmetic,
@@ -57,7 +57,7 @@ where
 
 import Data.Functor
 import Physics.Units.Type
-import Physics.Units.Arithmetic hiding ((*<))
+import Physics.Units.Arithmetic hiding ((*<), (>+<))
 import Physics.Units.Constants
 import Physics.Units.Convert
 import Physics.Units.Planck ( One,
@@ -90,11 +90,11 @@ import qualified Algebra.Ring as Ring
 import qualified Algebra.Transcendental as Transcendental
 import qualified Algebra.Absolute as Absolute
 import MathObj.Wrapper.NumericPrelude
-import Prelude (Eq, Show)
+import Control.Applicative
+import NumericPrelude
 
 infixl 7 *<
 
-one       ∷ Ring.C a ⇒ One       a; one       = Planck 1
 metre     ∷ Ring.C a ⇒ Metre     a; metre     = Planck 1
 kilogram  ∷ Ring.C a ⇒ Kilogram  a; kilogram  = Planck 1
 second    ∷ Ring.C a ⇒ Second    a; second    = Planck 1
@@ -122,8 +122,11 @@ henry     ∷ Ring.C a ⇒ Henry     a; henry     = Planck 1
 (*<) ∷ (Ring.C x, Functor f) ⇒ x → f x → f x
 x *< y = (x*) <$> y
 
-ħ ∷ (Transcendental.C n, Absolute.C n, Eq n, Show n) ⇒ (Joule >*< Second) n
-ħ = decons <$> fromSI reducedPlanckConstant
+(>+<) ∷ (Ring.C x, Applicative f) ⇒ f x → f x → f x
+x >+< y = (+) <$> x <*> y
 
-mₑ ∷ (Transcendental.C n, Absolute.C n, Eq n, Show n) ⇒ Kilogram n
-mₑ = decons <$> fromSI electronMass
+ħ ∷ Ring.C n ⇒ (Joule >*< Second) n
+ħ = undefined -- decons <$> fromSI reducedPlanckConstant
+
+mₑ ∷ Transcendental.C n ⇒ Kilogram n
+mₑ = undefined -- decons <$> fromSI electronMass

@@ -3,11 +3,13 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > module Physics.Mechanics where
 
 > import Physics.Quantum.Dirac
-> import Physics.NaturalUnits
+> import Physics.DimensionalAnalysis
+> import Data.Traversable
 > import Data.Complex
 > import Data.Functor
 > import Data.Coerce
-> import Numeric.AD
+> import Numeric.AD hiding (hessian)
+> import qualified Numeric.AD
 > import NumericPrelude
 > import qualified Algebra.Transcendental as Transcendental
 > import qualified Algebra.RealTranscendental as RealTranscendental
@@ -35,8 +37,11 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > volume ∷ Ring.C r ⇒ [r] → [Metre r]
 > volume = fmap (*< metre)
 
+> hessian :: (Traversable f, Functor g) ⇒ (∀r. RealTranscendental.C r ⇒ f r → g r) → f r → g (f (f r))
+> hessian f = undefined
+
 > laplacian ∷ (Functor g, RealTranscendental.C a) ⇒ (∀r.RealTranscendental.C r ⇒ [Metre r] → g r) → [Metre a] → (One >/< Square Metre) (g a)
-> laplacian f (fmap value → x) = (tr <$> hessianF (f . volume) x)/<square metre
+> laplacian f (fmap value → x) = Planck (tr <$> hessian (f . volume) x)
 
 H|psi> = (T + V)|psi>
 
