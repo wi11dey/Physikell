@@ -7,10 +7,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Install Graphviz
+      - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --yes graphviz
+          sudo apt-get install --yes graphviz libblas-dev liblapack-dev
           dot -V
       - name: Install Stack
         uses: haskell-actions/setup@v2
