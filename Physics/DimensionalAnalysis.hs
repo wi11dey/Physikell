@@ -1,8 +1,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 
 module Physics.DimensionalAnalysis
-  ( (*<),
-    (>+<),
+  ( (>+<),
     (>-<),
     (>*<),
     (>/<),
@@ -20,7 +19,7 @@ import Data.Coerce
 import Data.Functor
 import Physics.Units.Type
 import Physics.Units.Arithmetic hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube, unit)
-import Physics.Units.Planck hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube, unit)
+import Physics.Units.Planck hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube, unit, Planck)
 import Physics.Units.Constants
 import Physics.Units.Convert
 import Algebra.Ring 
@@ -38,20 +37,16 @@ import GHC.TypeLits
 import Data.Type.Equality
 import NumericPrelude
 import Algebra.Additive
-import Algebra.Module
 import qualified Algebra.Module as Module
 import qualified Algebra.VectorSpace as VectorSpace
 import Algebra.DivisibleSpace
 import qualified Algebra.DivisibleSpace as DivisibleSpace
 
 infixl 6 >+<, >-<
-infixl 7 >*<, *<
+infixl 7 >*<
 
 unit ∷ (Functor f, f ~ Planck m kg s c k, Ring.C r) ⇒ f r
 unit = Planck 1
-
-(*<) ∷ (Ring.C x, Functor f) ⇒ x → f x → f x
-x *< y = (x*) <$> y
 
 (>*<) :: (Ring.C x, Coercible (f x) x, Coercible (f' x) x, Applicative (f>*<f')) => f x -> f' x -> (f >*< f') x
 x >*< y = pure (coerce x * coerce y)

@@ -11,6 +11,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Numeric.AD hiding (hessian)
 > import qualified Numeric.AD
 > import NumericPrelude
+> import Algebra.Module ((*>))
 > import qualified Algebra.Transcendental as Transcendental
 > import qualified Algebra.RealTranscendental as RealTranscendental
 > import qualified Algebra.Ring as Ring
@@ -35,7 +36,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > tr matrix = sum (zipWith (!!) matrix [0..])
 
 > volume ∷ Ring.C r ⇒ [r] → [Metre r]
-> volume = fmap (*< unit @Metre)
+> volume = fmap (*> unit @Metre)
 
 > hessian :: (Traversable f, Functor g) ⇒ (∀r. RealTranscendental.C r ⇒ f r → g r) → f r → g (f (f r))
 > hessian f = undefined
@@ -52,8 +53,9 @@ iħ d/dt |psi x t> = H |psi>
 |psi> :: R^3 -> C
 
 > singleParticleH ∷ (∀r.RealTranscendental.C r ⇒ [Metre r] → Joule r) → (∀r.RealTranscendental.C r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
-> singleParticleH potential m (dimensionless → ψ) = ((\x →
->   square ħ>/<(ℂ.fromReal <$> (-2)*<m) >*< laplacian ψ x >+< (ψ x *< ℂ.fromReal <$> potential x)) |>)
+> singleParticleH potential m (dimensionless → ψ) = (|>) ((\x →
+>   square ħ>/<(ℂ.fromReal <$> ((-2 ∷ r) *> m)) >*< laplacian ψ x >+< (ψ x *> (ℂ.fromReal <$> potential x)))
+>   ∷ ∀ r. RealTranscendental.C r ⇒ [Metre r] → Joule (ℂ.T r))
 
 = Integration
 
@@ -61,7 +63,7 @@ iħ d/dt |psi x t> = H |psi>
 > integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (ℂ.fromReal <$> stepSize))) |>)
 
-> test = integrate (0.00001*<unit @Second) (singleParticleH (const $ 0*<unit @Joule) mₑ) (gaussian 0 0.00005 |>)
+> test = integrate ((0.00001 ∷ r) *> unit ∷ ∀r.RealTranscendental.C r ⇒ Second r) (singleParticleH (const $ ((0 ∷ r) *> unit ∷ ∀r.RealTranscendental.C r ⇒ Joule r)) mₑ) (gaussian 0 0.00005 |>)
 
 Consider bold(Crank–Nicolson), split-operator evolution, or a matrix exponential.
 
