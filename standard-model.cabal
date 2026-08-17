@@ -22,6 +22,8 @@ library
       BlockArguments
       ConstraintKinds
       DataKinds
+      FlexibleInstances
+      MultiParamTypeClasses
       PostfixOperators
       Rank2Types
       RebindableSyntax

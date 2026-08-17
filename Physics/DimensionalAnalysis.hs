@@ -37,6 +37,12 @@ import Data.Proxy
 import GHC.TypeLits
 import Data.Type.Equality
 import NumericPrelude
+import Algebra.Additive
+import Algebra.Module
+import qualified Algebra.Module as Module
+import qualified Algebra.VectorSpace as VectorSpace
+import Algebra.DivisibleSpace
+import qualified Algebra.DivisibleSpace as DivisibleSpace
 
 infixl 6 >+<, >-<
 infixl 7 >*<, *<
@@ -70,3 +76,18 @@ mₑ = undefined -- decons <$> fromSI electronMass
 
 hypercube :: (KnownNat n, Ring.C x, Functor f, Coercible (f x) ((f^+n) x)) => Proxy n -> f x -> (f^+n) x
 hypercube p = coerce . fmap (^natVal p)
+
+instance Additive.C t ⇒ Additive.C (Planck m kg s c k t) where
+  zero = Planck zero
+  Planck x + Planck y = Planck (x + y)
+  Planck x - Planck y = Planck (x - y)
+  negate (Planck x) = Planck (negate x)
+
+instance Ring.C t ⇒ Module.C t (Planck m kg s c k t) where
+  x *> Planck y = Planck (x * y)
+
+instance Field.C t ⇒ VectorSpace.C t (Planck m kg s c k t)
+
+instance Field.C t ⇒ DivisibleSpace.C t (Planck m kg s c k t) where
+  Planck x </> Planck y = x / y
+
