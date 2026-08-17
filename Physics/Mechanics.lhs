@@ -53,7 +53,7 @@ iħ d/dt |psi x t> = H |psi>
 
 > singleParticleH ∷ (∀r.RealTranscendental.C r ⇒ [Metre r] → Joule r) → (∀r.RealTranscendental.C r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
 > singleParticleH potential m (dimensionless → ψ) = ((\x →
->   square ħ>/<(ℂ.fromReal <$> (-2)*>m) >*< laplacian ψ x >+< (ψ x *> (ℂ.fromReal <$> potential x))) |>)
+>   square ħ>/<(ℂ.fromReal <$> (-2)*>m) >*< laplacian ψ x + (ψ x *> (ℂ.fromReal <$> potential x))) |>)
 
 = Integration
 
