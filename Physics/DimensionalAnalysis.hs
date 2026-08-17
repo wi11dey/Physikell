@@ -54,6 +54,7 @@ module Physics.DimensionalAnalysis
     (>*<),
     (>/<),
     square,
+    unit,
     ħ,
     mₑ,
     module Physics.Units.Arithmetic,
@@ -103,6 +104,7 @@ import MathObj.Wrapper.NumericPrelude
 import Control.Applicative
 import Data.Proxy
 import GHC.TypeLits
+import Data.Type.Equality
 import NumericPrelude
 
 metre     ∷ Ring.C a ⇒ Metre     a; metre     = Planck 1
@@ -131,6 +133,9 @@ henry     ∷ Ring.C a ⇒ Henry     a; henry     = Planck 1
 
 infixl 6 >+<, >-<
 infixl 7 >*<, *<
+
+unit ∷ (Functor f, f ~ Planck m kg s c k, Ring.C r) ⇒ f r
+unit = Planck 1
 
 (*<) ∷ (Ring.C x, Functor f) ⇒ x → f x → f x
 x *< y = (x*) <$> y

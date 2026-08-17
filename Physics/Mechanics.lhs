@@ -17,7 +17,6 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import qualified Number.Complex as ℂ
 > import qualified Algebra.Absolute as Absolute
 > import Control.Applicative (pure)
-> import Data.Type.Equality
 
 > i ∷ Ring.C r ⇒ ℂ.T r
 > i = ℂ.imaginaryUnit
@@ -61,9 +60,6 @@ iħ d/dt |psi x t> = H |psi>
 > integrate ∷ (∀r.RealTranscendental.C r ⇒ Second r) → (Wavefunction One → Wavefunction Joule) → Wavefunction One → [Wavefunction One]
 > integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (ℂ.fromReal <$> stepSize))) |>)
-
-> unit :: (Functor f, f ~ Planck metre0 kilogram0 second0 coulomb0 kelvin0, Ring.C r) => f r
-> unit = Planck 1
 
 > test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< unit @Joule) mₑ) (gaussian 0 0.00005 |>)
 
