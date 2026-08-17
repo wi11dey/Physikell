@@ -25,6 +25,7 @@ library
       PostfixOperators
       Rank2Types
       RebindableSyntax
+      TypeApplications
       TypeOperators
       UnicodeSyntax
       ViewPatterns

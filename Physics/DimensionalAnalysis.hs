@@ -95,6 +95,7 @@ import Physics.Units.Planck ( One,
 import Algebra.Ring 
 import Algebra.Field
 import qualified Algebra.Field as Field
+import qualified Algebra.Additive as Additive
 import qualified Algebra.Ring as Ring
 import qualified Algebra.Transcendental as Transcendental
 import qualified Algebra.Absolute as Absolute
@@ -140,10 +141,10 @@ x >*< y = pure (coerce x * coerce y)
 (>/<) :: (Field.C x, Coercible (f x) x, Coercible (f' x) x, Applicative (f>/<f')) => f x -> f' x -> (f >/< f') x
 x >/< y = pure (coerce x / coerce y)
 
-(>+<) ∷ (Ring.C x, Applicative f) ⇒ f x → f x → f x
+(>+<) ∷ (Additive.C x, Applicative f) ⇒ f x → f x → f x
 x >+< y = (+) <$> x <*> y
 
-(>-<) ∷ (Ring.C x, Applicative f) ⇒ f x → f x → f x
+(>-<) ∷ (Additive.C x, Applicative f) ⇒ f x → f x → f x
 x >-< y = (-) <$> x <*> y
 
 square :: (Coercible (f x) (Square f x), Ring.C x, Functor f) => f x -> Square f x

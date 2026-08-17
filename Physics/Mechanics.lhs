@@ -17,6 +17,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import qualified Number.Complex as ℂ
 > import qualified Algebra.Absolute as Absolute
 > import Control.Applicative (pure)
+> import Data.Type.Equality
 
 > i ∷ Ring.C r ⇒ ℂ.T r
 > i = ℂ.imaginaryUnit
@@ -61,7 +62,10 @@ iħ d/dt |psi x t> = H |psi>
 > integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
 >   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (ℂ.fromReal <$> stepSize))) |>)
 
-> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< joule) mₑ) (gaussian 0 0.00005 |>)
+> units :: (Functor f, f ~ Planck metre0 kilogram0 second0 coulomb0 kelvin0, Ring.C r) => f r
+> units = Planck 1
+
+> test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< units @Joule) mₑ) (gaussian 0 0.00005 |>)
 
 Consider bold(Crank–Nicolson), split-operator evolution, or a matrix exponential.
 
