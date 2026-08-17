@@ -15,10 +15,10 @@ custom-setup
 
 library
   exposed-modules:
-      Mathematics.Algebra.Transcendental
+      Mathematics.Constants
       Physics.DimensionalAnalysis
       Physics.Quantum.Dirac
-      Physics.Mechanics
+      Physics.Quantum.Mechanics
   default-extensions:
       BlockArguments
       ConstraintKinds

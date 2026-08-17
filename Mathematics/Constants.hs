@@ -1,4 +1,4 @@
-module Mathematics.Algebra.Transcendental (module Transcendental, π) where
+module Mathematics.Constants where
 
 import qualified Algebra.Transcendental as Transcendental
 
