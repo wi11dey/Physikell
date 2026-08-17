@@ -11,60 +11,60 @@
 <polygon fill="white" stroke="none" points="-4,4 -4,-309.33 462,-309.33 462,4 -4,4"/>
 <g id="clust1" class="cluster">
 <title>cluster_0</title>
-<polygon fill="#000000" fill-opacity="0.058824" stroke="#000000" stroke-opacity="0.058824" points="340,-23.32 340,-134.81 450,-134.81 450,-23.32 340,-23.32"/>
-<text xml:space="preserve" text-anchor="middle" x="395" y="-117.51" font-family="Times,serif" font-size="14.00">Mathematics</text>
+<polygon fill="#000000" fill-opacity="0.058824" stroke="#000000" stroke-opacity="0.058824" points="8,-131.07 8,-245.01 118,-245.01 118,-131.07 8,-131.07"/>
+<text xml:space="preserve" text-anchor="middle" x="63" y="-227.71" font-family="Times,serif" font-size="14.00">Mathematics</text>
 </g>
 <g id="clust2" class="cluster">
 <title>cluster_1</title>
-<polygon fill="#000000" fill-opacity="0.058824" stroke="#000000" stroke-opacity="0.058824" points="8,-11.66 8,-293.67 332,-293.67 332,-11.66 8,-11.66"/>
-<text xml:space="preserve" text-anchor="middle" x="170" y="-276.37" font-family="Times,serif" font-size="14.00">Physics</text>
+<polygon fill="#000000" fill-opacity="0.058824" stroke="#000000" stroke-opacity="0.058824" points="126,-11.92 126,-293.42 450,-293.42 450,-11.92 126,-11.92"/>
+<text xml:space="preserve" text-anchor="middle" x="288" y="-276.12" font-family="Times,serif" font-size="14.00">Physics</text>
 </g>
 <g id="clust3" class="cluster">
 <title>cluster_2</title>
-<polygon fill="#000000" fill-opacity="0.058824" stroke="#000000" stroke-opacity="0.058824" points="16,-23.32 16,-246.31 134,-246.31 134,-23.32 16,-23.32"/>
-<text xml:space="preserve" text-anchor="middle" x="75" y="-229.01" font-family="Times,serif" font-size="14.00">Quantum</text>
+<polygon fill="#000000" fill-opacity="0.058824" stroke="#000000" stroke-opacity="0.058824" points="134,-23.83 134,-245.01 252,-245.01 252,-23.83 134,-23.83"/>
+<text xml:space="preserve" text-anchor="middle" x="193" y="-227.71" font-family="Times,serif" font-size="14.00">Quantum</text>
 </g>
 <!-- u0 -->
 <g id="node1" class="node">
 <title>u0</title>
-<ellipse fill="#ffffbb" stroke="black" stroke-width="0" cx="395" cy="-61.66" rx="47.26" ry="18"/>
-<text xml:space="preserve" text-anchor="middle" x="395" y="-56.61" font-family="Times,serif" font-size="14.00">Constants</text>
-</g>
-<!-- u1 -->
-<g id="node2" class="node">
-<title>u1</title>
-<ellipse fill="#bbbbff" stroke="black" stroke-width="0" cx="233" cy="-61.66" rx="90.76" ry="18"/>
-<text xml:space="preserve" text-anchor="middle" x="233" y="-56.61" font-family="Times,serif" font-size="14.00">DimensionalAnalysis</text>
-</g>
-<!-- u2 -->
-<g id="node3" class="node">
-<title>u2</title>
-<ellipse fill="#ffbbbb" stroke="black" stroke-width="0" cx="75" cy="-61.66" rx="31.39" ry="18"/>
-<text xml:space="preserve" text-anchor="middle" x="75" y="-56.61" font-family="Times,serif" font-size="14.00">Dirac</text>
+<ellipse fill="#ffffbb" stroke="black" stroke-width="0" cx="63" cy="-169.92" rx="47.26" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="63" y="-164.87" font-family="Times,serif" font-size="14.00">Constants</text>
 </g>
 <!-- u3 -->
 <g id="node4" class="node">
 <title>u3</title>
-<ellipse fill="#ffbbbb" stroke="black" stroke-width="0" cx="75" cy="-172.66" rx="51.35" ry="18"/>
-<text xml:space="preserve" text-anchor="middle" x="75" y="-167.61" font-family="Times,serif" font-size="14.00">Mechanics</text>
+<ellipse fill="#ffbbbb" stroke="black" stroke-width="0" cx="193" cy="-62.92" rx="51.35" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="193" y="-57.87" font-family="Times,serif" font-size="14.00">Mechanics</text>
 </g>
-<!-- u3&#45;&gt;u0 -->
+<!-- u0&#45;&gt;u3 -->
 <g id="edge1" class="edge">
-<title>u3&#45;&gt;u0</title>
-<path fill="none" stroke="black" d="M123.97,-167.44C178.21,-161.22 267.12,-146.38 336,-112.16 349.15,-105.63 361.88,-95.59 372.12,-86.25"/>
-<polygon fill="black" stroke="black" points="374.51,-88.81 379.34,-79.38 369.68,-83.74 374.51,-88.81"/>
+<title>u0&#45;&gt;u3</title>
+<path fill="none" stroke="black" d="M81.9,-153.65C103.73,-136.02 139.84,-106.85 164.95,-86.57"/>
+<polygon fill="black" stroke="black" points="166.89,-89.5 172.47,-80.5 162.49,-84.06 166.89,-89.5"/>
 </g>
-<!-- u3&#45;&gt;u1 -->
+<!-- u1 -->
+<g id="node2" class="node">
+<title>u1</title>
+<ellipse fill="#bbbbff" stroke="black" stroke-width="0" cx="351" cy="-169.92" rx="90.76" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="351" y="-164.87" font-family="Times,serif" font-size="14.00">DimensionalAnalysis</text>
+</g>
+<!-- u1&#45;&gt;u3 -->
 <g id="edge2" class="edge">
-<title>u3&#45;&gt;u1</title>
-<path fill="none" stroke="black" d="M96.97,-156.5C123.79,-138 169.38,-106.55 200.32,-85.2"/>
-<polygon fill="black" stroke="black" points="201.93,-88.35 208.17,-79.79 197.95,-82.59 201.93,-88.35"/>
+<title>u1&#45;&gt;u3</title>
+<path fill="none" stroke="black" d="M326.66,-152.74C299.32,-134.57 254.85,-105.02 224.79,-85.04"/>
+<polygon fill="black" stroke="black" points="227.1,-82.38 216.84,-79.76 223.23,-88.21 227.1,-82.38"/>
 </g>
-<!-- u3&#45;&gt;u2 -->
+<!-- u2 -->
+<g id="node3" class="node">
+<title>u2</title>
+<ellipse fill="#ffbbbb" stroke="black" stroke-width="0" cx="193" cy="-169.92" rx="31.39" ry="18"/>
+<text xml:space="preserve" text-anchor="middle" x="193" y="-164.87" font-family="Times,serif" font-size="14.00">Dirac</text>
+</g>
+<!-- u2&#45;&gt;u3 -->
 <g id="edge3" class="edge">
-<title>u3&#45;&gt;u2</title>
-<path fill="none" stroke="black" d="M75,-155.1C75,-138.06 75,-111.18 75,-90.79"/>
-<polygon fill="black" stroke="black" points="78.5,-90.88 75,-80.88 71.5,-90.88 78.5,-90.88"/>
+<title>u2&#45;&gt;u3</title>
+<path fill="none" stroke="black" d="M193,-152.05C193,-135.9 193,-111.23 193,-92.09"/>
+<polygon fill="black" stroke="black" points="196.5,-92.26 193,-82.26 189.5,-92.26 196.5,-92.26"/>
 </g>
 </g>
 </svg>
