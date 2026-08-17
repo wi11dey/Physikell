@@ -20,39 +20,16 @@ import Data.Coerce
 import Data.Functor
 import Physics.Units.Type
 import Physics.Units.Arithmetic hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube, unit)
+import Physics.Units.Planck hiding ((*<), (>+<), (>-<), (>*<), (>/<), square, hypercube, unit)
 import Physics.Units.Constants
 import Physics.Units.Convert
-import Physics.Units.Planck ( One,
-    Metre,
-    Kilogram,
-    Second,
-    Coulomb,
-    Kelvin,
-    Siemens,
-    Farad,
-    Pascal,
-    Hertz,
-    Becquerel,
-    Ampere,
-    Radian,
-    Steradian,
-    Tesla,
-    Newton,
-    Gray,
-    Sievert,
-    Watt,
-    Volt,
-    Joule,
-    Ohm,
-    Weber,
-    Henry,
-  )
 import Algebra.Ring 
 import Algebra.Field
 import qualified Algebra.Field as Field
 import qualified Algebra.Additive as Additive
 import qualified Algebra.Ring as Ring
 import qualified Algebra.Transcendental as Transcendental
+import qualified Algebra.DivisibleSpace as DivisibleSpace
 import qualified Algebra.Absolute as Absolute
 import MathObj.Wrapper.NumericPrelude
 import Control.Applicative
