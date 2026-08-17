@@ -21,6 +21,7 @@ library
   default-extensions:
       BlockArguments
       ConstraintKinds
+      DataKinds
       PostfixOperators
       Rank2Types
       RebindableSyntax
