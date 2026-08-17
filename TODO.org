@@ -1,1 +1,3 @@
 * TODO Reduce classes in constants down to Transcendental only
+* TODO Move to dimensional package
+* TODO Make GradedRing class and use that one’s +, -, 0, and 1

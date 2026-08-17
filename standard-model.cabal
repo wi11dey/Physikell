@@ -15,6 +15,7 @@ custom-setup
 
 library
   exposed-modules:
+      Mathematics.Algebra.Transcendental
       Physics.DimensionalAnalysis
       Physics.Quantum.Dirac
       Physics.Mechanics

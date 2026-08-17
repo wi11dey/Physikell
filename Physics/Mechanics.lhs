@@ -11,7 +11,8 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Numeric.AD hiding (hessian)
 > import qualified Numeric.AD
 > import NumericPrelude hiding ((*>))
-> import qualified Algebra.Transcendental as Transcendental
+> import Mathematics.Algebra.Transcendental (π)
+> import qualified Mathematics.Algebra.Transcendental as Transcendental
 > import qualified Algebra.RealTranscendental as RealTranscendental
 > import qualified Algebra.Ring as Ring
 > import qualified Number.Complex as ℂ
@@ -20,9 +21,6 @@ I try to stay as close to how physicists write as possible within the bounds of 
 
 > i ∷ Ring.C r ⇒ ℂ.T r
 > i = ℂ.imaginaryUnit
-
-> π ∷ Transcendental.C n ⇒ n
-> π = Transcendental.pi
 
 > dimensionless ∷ Wavefunction One → (∀r.RealTranscendental.C r ⇒ [Metre r] → ℂ.T r)
 > dimensionless = (value .) . eval
