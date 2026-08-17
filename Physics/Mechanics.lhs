@@ -3,44 +3,39 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > module Physics.Mechanics where
 
 > import Physics.Quantum.Dirac
-> import Prelude hiding (Real)
-> import Physics.Units.Planck
-> import Physics.Units.Constants
-> import Physics.Units.Convert
+> import Physics.NaturalUnits
 > import Data.Complex
 > import Data.Functor
 > import Data.Coerce
 > import Numeric.AD
+> import NumericPrelude
+> import qualified Algebra.Transcendental as Transcendental
+> import qualified Algebra.RealTranscendental as RealTranscendental
+> import qualified Algebra.Ring as Ring
+> import qualified Number.Complex as ℂ
+> import qualified Algebra.Absolute as Absolute
+> import Control.Applicative (pure)
 
-> real ∷ Ring r ⇒ r → Complex r
-> real = (:+ 0)
+> i ∷ Ring.C r ⇒ ℂ.T r
+> i = ℂ.imaginaryUnit
 
-> i ∷ Ring r ⇒ Complex r
-> i = 0 :+ 1
+> π ∷ Transcendental.C n ⇒ n
+> π = Transcendental.pi
 
-> π ∷ Real n ⇒ n
-> π = pi
-
-> ħ ∷ Real n ⇒ (Joule >*< Second) n
-> ħ = fromSI reducedPlanckConstant
-
-> mₑ ∷ Real n ⇒ Kilogram n
-> mₑ = fromSI electronMass
-
-> dimensionless ∷ Wavefunction One → (∀r.Differentiable r ⇒ [Metre r] → Complex r)
+> dimensionless ∷ Wavefunction One → (∀r.RealTranscendental.C r ⇒ [Metre r] → ℂ.T r)
 > dimensionless = (value .) . eval
 
-> gaussian ∷ (∀r.Differentiable r ⇒ r) → (∀r.Differentiable r ⇒ r) → (∀r.(Differentiable r, Coercible (unit r) r) ⇒ [unit r] → One (Complex r))
-> gaussian μ σ (fmap value → x) = pure $ real $
+> gaussian ∷ (∀r.RealTranscendental.C r ⇒ r) → (∀r.RealTranscendental.C r ⇒ r) → (∀r.(RealTranscendental.C r, Coercible (unit r) r) ⇒ [unit r] → One (ℂ.T r))
+> gaussian μ σ (fmap value → x) = pure $ ℂ.fromReal $
 >   1/(sqrt 2*π*σ^2)**(fromIntegral (length x)/4) * (exp $ -(sum $ x <&> (-) μ <&> (^2))/(2*σ^2))
 
-> tr ∷ Ring t ⇒ [[t]] → t
+> tr ∷ Ring.C t ⇒ [[t]] → t
 > tr matrix = sum (zipWith (!!) matrix [0..])
 
-> volume ∷ Ring r ⇒ [r] → [Metre r]
+> volume ∷ Ring.C r ⇒ [r] → [Metre r]
 > volume = fmap (*< metre)
 
-> laplacian ∷ (Functor g, Differentiable a, Fractional (g a)) ⇒ (∀r.Differentiable r ⇒ [Metre r] → g r) → [Metre a] → (One >/< Square Metre) (g a)
+> laplacian ∷ (Functor g, RealTranscendental.C a) ⇒ (∀r.RealTranscendental.C r ⇒ [Metre r] → g r) → [Metre a] → (One >/< Square Metre) (g a)
 > laplacian f (fmap value → x) = (tr <$> hessianF (f . volume) x)/<square metre
 
 H|psi> = (T + V)|psi>
@@ -51,15 +46,15 @@ iħ d/dt |psi x t> = H |psi>
 
 |psi> :: R^3 -> C
 
-> singleParticleH ∷ (∀r.Differentiable r ⇒ [Metre r] → Joule r) → (∀r.Differentiable r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
+> singleParticleH ∷ (∀r.RealTranscendental.C r ⇒ [Metre r] → Joule r) → (∀r.RealTranscendental.C r ⇒ Kilogram r) → Wavefunction One → Wavefunction Joule
 > singleParticleH potential m (dimensionless → ψ) = ((\x →
->   square ħ>/<(real <$> (-2)*<m) >*< laplacian ψ x >+< (ψ x *< real <$> potential x)) |>)
+>   square ħ>/<(ℂ.fromReal <$> (-2)*<m) >*< laplacian ψ x >+< (ψ x *< ℂ.fromReal <$> potential x)) |>)
 
 = Integration
 
-> integrate ∷ (∀r.Differentiable r ⇒ Second r) → (Wavefunction One → Wavefunction Joule) → Wavefunction One → [Wavefunction One]
+> integrate ∷ (∀r.RealTranscendental.C r ⇒ Second r) → (Wavefunction One → Wavefunction Joule) → Wavefunction One → [Wavefunction One]
 > integrate stepSize hamiltonian ψ = (ψ:) $ integrate stepSize hamiltonian $ ((\x → pure $
->   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (real <$> stepSize))) |>)
+>   dimensionless ψ x - i*(value $ hamiltonian ψ `eval` x >/< ħ >*< (ℂ.fromReal <$> stepSize))) |>)
 
 > test = integrate (0.00001*<second) (singleParticleH (const $ 0 *< joule) mₑ) (gaussian 0 0.00005 |>)
 

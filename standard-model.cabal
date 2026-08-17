@@ -15,6 +15,7 @@ custom-setup
 
 library
   exposed-modules:
+      Physics.DimensionalAnalysis
       Physics.Quantum.Dirac
       Physics.Mechanics
   default-extensions:
@@ -22,6 +23,7 @@ library
       ConstraintKinds
       PostfixOperators
       Rank2Types
+      RebindableSyntax
       TypeOperators
       UnicodeSyntax
       ViewPatterns
