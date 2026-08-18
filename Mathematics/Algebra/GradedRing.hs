@@ -4,77 +4,71 @@
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeFamilies #-}
 
--- | Rings whose multiplication combines, rather than preserves, grades.
---
--- The grade kind is intentionally polymorphic.  It may be a natural number,
--- an integer exponent, a promoted dimension record, or any other kind chosen
--- by an instance.  Addition remains internal to each homogeneous component.
 module Mathematics.Algebra.GradedRing
-  ( Grading,
+  ( Grade,
     C,
     Unit,
     Product,
+    Exponent,
+    Power,
+    PowerConstraint,
     (*),
+    (^),
     one,
     fromInteger,
   )
 where
 
 import qualified Algebra.Additive as Additive
+import qualified Algebra.Field as Field
 import qualified Algebra.Ring as Ring
-import Data.Kind (Type)
+import Data.Kind (Constraint, Type)
+import Data.Proxy (Proxy)
+import qualified Numeric.NumType.DK.Integers as TypeInt
 import qualified Numeric.Units.Dimensional as Dimensional
 import qualified Numeric.Units.Dimensional.Coercion as Dimensional
 import Prelude (Integer)
 
 infixl 7 *
+infixr 8 ^
 
--- | A grade-indexed ring.
---
--- Laws, in addition to the 'Additive.C' laws for each component:
---
--- * multiplication is associative (up to the reductions of 'Product');
--- * 'one' is a left and right identity (up to 'Unit' and 'Product');
--- * multiplication distributes over addition;
--- * 'fromInteger' embeds integers in the component of grade 'Unit'.
---
--- The coefficient is a separate parameter so that families such as
--- @Quantity :: Dimension -> Type -> Type@ can be instances directly.
-class Grading ring => C (ring :: kind -> Type -> Type) coefficient where
-  -- | Multiply homogeneous values, composing their grades.
-  (*)
-    :: ring left coefficient
-    -> ring right coefficient
-    -> ring (Product ring left right) coefficient
+class Grade ring => C (ring :: kind -> Type -> Type) coefficient where
+  (*) :: ring left coefficient -> ring right coefficient -> ring (Product ring left right) coefficient
 
-  -- | The multiplicative identity, which lies in the neutral component.
+  (^)
+    :: (Field.C coefficient, PowerConstraint ring exponent)
+    => ring grade coefficient
+    -> Proxy exponent
+    -> ring (Power ring grade exponent) coefficient
+
   one :: ring (Unit ring) coefficient
   one = fromInteger 1
 
-  -- | Embed an integer in the neutral component.
   fromInteger :: Integer -> ring (Unit ring) coefficient
 
   {-# MINIMAL (*), fromInteger #-}
 
--- | The multiplicative structure of a grade kind.
---
--- Keeping this independent of 'C' allows one graded family to be used with
--- many coefficient types without repeating associated type instances.
-class Grading (ring :: kind -> Type -> Type) where
-  -- | The neutral grade for multiplication.
+class Grade (ring :: kind -> Type -> Type) where
   type Unit ring :: kind
-
-  -- | Composition of two grades under multiplication.
   type Product ring (left :: kind) (right :: kind) :: kind
+  type Exponent ring :: Type
+  type Power ring (grade :: kind) (exponent :: Exponent ring) :: kind
+  type PowerConstraint ring (exponent :: Exponent ring) :: Constraint
 
-instance Grading Dimensional.Quantity where
+instance Grade Dimensional.Quantity where
   type Unit Dimensional.Quantity = Dimensional.DOne
   type Product Dimensional.Quantity left right = left Dimensional.* right
+  type Exponent Dimensional.Quantity = TypeInt.TypeInt
+  type Power Dimensional.Quantity grade exponent = grade Dimensional.^ exponent
+  type PowerConstraint Dimensional.Quantity exponent = TypeInt.KnownTypeInt exponent
 
 instance Ring.C coefficient => C Dimensional.Quantity coefficient where
   left * right =
     Dimensional.coerce
       (Dimensional.unQuantity left Ring.* Dimensional.unQuantity right)
+  value ^ exponent =
+    Dimensional.coerce
+      (Dimensional.unQuantity value Field.^- TypeInt.toNum exponent)
   fromInteger number =
     Dimensional.coerce (Ring.fromInteger number :: coefficient)
 
