@@ -1,3 +1,3 @@
-module Mathematics.Algebra.Additive (module Additive) where
+module Mathematics.Algebra.Additive (module Algebra.Additive) where
 
-import qualified Algebra.Additive as Additive
+import Algebra.Additive

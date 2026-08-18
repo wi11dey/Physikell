@@ -18,8 +18,8 @@ module Mathematics.Algebra.GradedRing
   )
 where
 
-import qualified Algebra.Additive as Additive
-import qualified Algebra.Ring as Ring
+import qualified Mathematics.Algebra.Additive as Additive
+import qualified Mathematics.Algebra.Ring as Ring
 import Data.Kind (Type)
 import Data.Proxy (Proxy)
 import GHC.TypeLits (KnownNat, Nat, natVal)

@@ -1,3 +1,3 @@
-module Mathematics.Algebra.Ring (module Ring) where
+module Mathematics.Algebra.Ring (module Algebra.Ring) where
 
-import qualified Algebra.Ring as Ring
+import Algebra.Ring
