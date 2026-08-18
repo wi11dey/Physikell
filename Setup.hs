@@ -1,3 +1,4 @@
+{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE UnicodeSyntax #-}
 
 import Control.Monad
@@ -17,7 +18,7 @@ main =
       postBuild simpleUserHooks args flags packageDescription localBuildInfo
 
       output ← capture_ $ graphmod ["--quiet"]
-      let graph = reverseArrows (parseDotGraph (Text.pack output) ∷ DotGraph String)
+      let graph = op $ parseDotGraph (Text.pack output) ∷ DotGraph String
       Text.writeFile "Modules.dot" $ printDotGraph graph
 
       hasGraphviz ← isGraphvizInstalled
@@ -26,11 +27,11 @@ main =
       else pure ()
   }
 
-reverseArrows ∷ DotGraph n → DotGraph n
-reverseArrows graph = graph {graphStatements = reverseStatement <$> graphStatements graph}
+op ∷ DotGraph n → DotGraph n
+op graph@DotGraph {..} = graph {graphStatements = opStatement <$> graphStatements}
   where
-    reverseStatement (DE edge) =
-      DE edge {fromNode = toNode edge, toNode = fromNode edge}
-    reverseStatement (SG subGraph) =
-      SG subGraph {subGraphStmts = reverseStatement <$> subGraphStmts subGraph}
-    reverseStatement statement = statement
+    opStatement (DE edge@DotEdge {..}) =
+      DE edge {fromNode = toNode, toNode = fromNode}
+    opStatement (SG subGraph@DotSG {..}) =
+      SG subGraph {subGraphStmts = opStatement <$> subGraphStmts}
+    opStatement statement = statement
