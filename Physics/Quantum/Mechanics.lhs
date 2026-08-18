@@ -11,13 +11,16 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Numeric.AD hiding (hessian)
 > import qualified Numeric.AD
 > import NumericPrelude hiding ((*>))
-> import Mathematics.Constants (π)
 > import qualified Algebra.Transcendental as Transcendental
 > import qualified Algebra.RealTranscendental as RealTranscendental
-> import qualified Mathematics.Algebra.Ring as Ring
+> import qualified Algebra.Ring as Ring
+> import qualified Algebra.GradedRing as GRing
 > import qualified Number.Complex as ℂ
 > import qualified Algebra.Absolute as Absolute
 > import Control.Applicative (pure)
+
+> π ∷ Transcendental.C n ⇒ n
+> π = Transcendental.pi
 
 > i ∷ Ring.C r ⇒ ℂ.T r
 > i = ℂ.imaginaryUnit

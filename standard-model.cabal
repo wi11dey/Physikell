@@ -15,10 +15,7 @@ custom-setup
 
 library
   exposed-modules:
-      Mathematics.Algebra.Additive
-      Mathematics.Algebra.Ring
-      Mathematics.Algebra.GradedRing
-      Mathematics.Constants
+      Algebra.GradedRing
       Physics.DimensionalAnalysis
       Physics.Quantum.Dirac
       Physics.Quantum.Mechanics
