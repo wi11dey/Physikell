@@ -42,7 +42,7 @@
 <text xml:space="preserve" text-anchor="middle" x="381" y="-82.76" font-family="Times,serif" font-size="14.00">Mechanics</text>
 </g>
 <!-- u3&#45;&gt;u6 -->
-<g id="edge3" class="edge">
+<g id="edge4" class="edge">
 <title>u3&#45;&gt;u6</title>
 <path fill="none" stroke="black" d="M264.91,-222.75C287.69,-196.48 333.06,-144.12 359.84,-113.22"/>
 <polygon fill="black" stroke="black" points="362.29,-115.74 366.2,-105.89 357,-111.15 362.29,-115.74"/>
@@ -77,6 +77,12 @@
 <path fill="none" stroke="black" d="M151.24,-222.18C142.33,-196.5 125.15,-146.93 114.42,-115.99"/>
 <polygon fill="black" stroke="black" points="117.87,-115.24 111.29,-106.94 111.25,-117.53 117.87,-115.24"/>
 </g>
+<!-- u1&#45;&gt;u6 -->
+<g id="edge3" class="edge">
+<title>u1&#45;&gt;u6</title>
+<path fill="none" stroke="black" d="M175.71,-226.28C214,-200.64 301.65,-141.94 349.09,-110.17"/>
+<polygon fill="black" stroke="black" points="350.95,-113.14 357.31,-104.67 347.06,-107.32 350.95,-113.14"/>
+</g>
 <!-- u4 -->
 <g id="node5" class="node">
 <title>u4</title>
@@ -84,7 +90,7 @@
 <text xml:space="preserve" text-anchor="middle" x="539" y="-234.76" font-family="Times,serif" font-size="14.00">DimensionalAnalysis</text>
 </g>
 <!-- u4&#45;&gt;u6 -->
-<g id="edge4" class="edge">
+<g id="edge5" class="edge">
 <title>u4&#45;&gt;u6</title>
 <path fill="none" stroke="black" d="M521.49,-222.18C493.31,-195.43 437.83,-142.76 405.66,-112.22"/>
 <polygon fill="black" stroke="black" points="408.4,-109.99 398.73,-105.64 403.58,-115.07 408.4,-109.99"/>
@@ -96,7 +102,7 @@
 <text xml:space="preserve" text-anchor="middle" x="381" y="-234.76" font-family="Times,serif" font-size="14.00">Dirac</text>
 </g>
 <!-- u5&#45;&gt;u6 -->
-<g id="edge5" class="edge">
+<g id="edge6" class="edge">
 <title>u5&#45;&gt;u6</title>
 <path fill="none" stroke="black" d="M381,-221.89C381,-196.32 381,-147.55 381,-116.68"/>
 <polygon fill="black" stroke="black" points="384.5,-116.94 381,-106.94 377.5,-116.94 384.5,-116.94"/>

@@ -14,7 +14,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > import Mathematics.Constants (π)
 > import qualified Algebra.Transcendental as Transcendental
 > import qualified Algebra.RealTranscendental as RealTranscendental
-> import qualified Algebra.Ring as Ring
+> import qualified Mathematics.Algebra.Ring as Ring
 > import qualified Number.Complex as ℂ
 > import qualified Algebra.Absolute as Absolute
 > import Control.Applicative (pure)
