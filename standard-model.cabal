@@ -42,6 +42,7 @@ library
     , base
     , dimensional
     , hmatrix
+    , numtype-dk
     , numeric-prelude
     , physics
     , plotlyhs
