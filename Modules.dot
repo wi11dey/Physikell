@@ -49,6 +49,8 @@ digraph G {
                ,penwidth=0];
         }
     }
+    u0 -> u2;
+    u1 -> u2;
     u3 -> u6;
     u4 -> u6;
     u5 -> u6;
