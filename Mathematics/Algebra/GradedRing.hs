@@ -3,15 +3,14 @@
 {-# LANGUAGE NoRebindableSyntax #-}
 {-# LANGUAGE PolyKinds #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE UndecidableInstances #-}
 
 module Mathematics.Algebra.GradedRing
   ( Grade,
     C,
     Unit,
     Product,
-    Exponent,
     Power,
-    PowerConstraint,
     (*),
     (^),
     one,
@@ -20,14 +19,15 @@ module Mathematics.Algebra.GradedRing
 where
 
 import qualified Algebra.Additive as Additive
-import qualified Algebra.Field as Field
 import qualified Algebra.Ring as Ring
-import Data.Kind (Constraint, Type)
+import Data.Kind (Type)
 import Data.Proxy (Proxy)
-import qualified Numeric.NumType.DK.Integers as TypeInt
+import GHC.TypeLits (KnownNat, Nat, natVal)
+import qualified GHC.TypeNats as Nat
 import qualified Numeric.Units.Dimensional as Dimensional
 import qualified Numeric.Units.Dimensional.Coercion as Dimensional
 import Prelude (Integer)
+import qualified Prelude as P
 
 infixl 7 *
 infixr 8 ^
@@ -36,7 +36,7 @@ class Grade ring => C (ring :: kind -> Type -> Type) coefficient where
   (*) :: ring left coefficient -> ring right coefficient -> ring (Product ring left right) coefficient
 
   (^)
-    :: (Field.C coefficient, PowerConstraint ring exponent)
+    :: KnownNat exponent
     => ring grade coefficient
     -> Proxy exponent
     -> ring (Power ring grade exponent) coefficient
@@ -46,21 +46,23 @@ class Grade ring => C (ring :: kind -> Type -> Type) coefficient where
 
   fromInteger :: Integer -> ring (Unit ring) coefficient
 
-  {-# MINIMAL (*), fromInteger #-}
+  {-# MINIMAL (*), (^), fromInteger #-}
 
 class Grade (ring :: kind -> Type -> Type) where
   type Unit ring :: kind
   type Product ring (left :: kind) (right :: kind) :: kind
-  type Exponent ring :: Type
-  type Power ring (grade :: kind) (exponent :: Exponent ring) :: kind
-  type PowerConstraint ring (exponent :: Exponent ring) :: Constraint
+  type Power ring (grade :: kind) (exponent :: Nat) :: kind
+
+type family QuantityPower (grade :: Dimensional.Dimension) (exponent :: Nat) :: Dimensional.Dimension where
+  QuantityPower grade 0 = Dimensional.DOne
+  QuantityPower grade exponent =
+    grade Dimensional.* QuantityPower grade (exponent Nat.- 1)
 
 instance Grade Dimensional.Quantity where
   type Unit Dimensional.Quantity = Dimensional.DOne
   type Product Dimensional.Quantity left right = left Dimensional.* right
-  type Exponent Dimensional.Quantity = TypeInt.TypeInt
-  type Power Dimensional.Quantity grade exponent = grade Dimensional.^ exponent
-  type PowerConstraint Dimensional.Quantity exponent = TypeInt.KnownTypeInt exponent
+  type Power Dimensional.Quantity grade exponent =
+    QuantityPower grade exponent
 
 instance Ring.C coefficient => C Dimensional.Quantity coefficient where
   left * right =
@@ -68,7 +70,7 @@ instance Ring.C coefficient => C Dimensional.Quantity coefficient where
       (Dimensional.unQuantity left Ring.* Dimensional.unQuantity right)
   value ^ exponent =
     Dimensional.coerce
-      (Dimensional.unQuantity value Field.^- TypeInt.toNum exponent)
+      (Dimensional.unQuantity value Ring.^ P.toInteger (natVal exponent))
   fromInteger number =
     Dimensional.coerce (Ring.fromInteger number :: coefficient)
 
