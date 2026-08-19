@@ -34,6 +34,15 @@ import qualified Data.Text.IO as T
 import qualified Data.Text.Lazy as LT
 import qualified Data.Text.Lazy.IO as LT
 
+main = defaultMainWithHooks simpleUserHooks
+  { buildHook = \package localBuildInfo hooks flags → do
+      unicodeify package
+      buildHook simpleUserHooks package localBuildInfo hooks flags
+  , postBuild = \args flags packageDescription localBuildInfo → do
+      postBuild simpleUserHooks args flags packageDescription localBuildInfo
+      graphModules
+  }
+
 unicodeSyntax ∷ Token → Maybe T.Text
 unicodeSyntax KW_Forall   = Just "∀"
 unicodeSyntax DoubleColon = Just "∷"
@@ -41,25 +50,6 @@ unicodeSyntax RightArrow  = Just "→"
 unicodeSyntax LeftArrow   = Just "←"
 unicodeSyntax DoubleArrow = Just "⇒"
 unicodeSyntax _           = Nothing
-
-replace ∷ (SrcSpan, T.Text) → IO ()
-replace (SrcSpan { srcSpanFilename = filename
-                 , srcSpanStartLine   = (subtract 1 → startLine)
-                 , srcSpanStartColumn = (subtract 1 → startCol)
-                 , srcSpanEndLine     = (subtract 1 → endLine)
-                 , srcSpanEndColumn   = (subtract 1 → endCol)
-                 },
-          replacement) = do
-  source ← T.readFile filename
-  let (prevLines, splitAt (endLine - startLine + 1) → (spanLines, nextLines)) =
-        splitAt startLine $ T.lines source
-  T.writeFile filename $
-    T.unlines $
-    prevLines ++
-      [ T.take startCol (head spanLines) <>
-        replacement <>
-        T.drop endCol (last spanLines)] ++
-      nextLines
 
 unicodeify ∷ PackageDescription → IO ()
 unicodeify package = do
@@ -80,34 +70,53 @@ unicodeify package = do
         | ".lhs" `isSuffixOf` parseFilename = do
             source ← readFile parseFilename
             preprocessed ← either return (dieWithException normal) $ unlit parseFilename source
-            return $ fromParseResult $ lexTokenStreamWithMode defaultParseMode { parseFilename, extensions } preprocessed
+            return $
+              fromParseResult $
+              lexTokenStreamWithMode defaultParseMode { parseFilename, extensions } preprocessed
         | ".hs" `isSuffixOf` parseFilename = do
             source ← readFile parseFilename
-            return $ fromParseResult $ lexTokenStreamWithMode defaultParseMode { parseFilename, extensions } source
+            return $
+              fromParseResult $
+              lexTokenStreamWithMode defaultParseMode { parseFilename, extensions } source
         | otherwise = return []
 
-main = defaultMainWithHooks simpleUserHooks
-  { buildHook = \package localBuildInfo hooks flags → do
-      unicodeify package
-      buildHook simpleUserHooks package localBuildInfo hooks flags
-  , postBuild = \args flags packageDescription localBuildInfo → do
-      postBuild simpleUserHooks args flags packageDescription localBuildInfo
+      replace ∷ (SrcSpan, T.Text) → IO ()
+      replace (SrcSpan { srcSpanFilename = filename
+                       , srcSpanStartLine   = (subtract 1 → startLine)
+                       , srcSpanStartColumn = (subtract 1 → startCol)
+                       , srcSpanEndLine     = (subtract 1 → endLine)
+                       , srcSpanEndColumn   = (subtract 1 → endCol)
+                       },
+                replacement) = do
+        source ← T.readFile filename
+        let (prevLines, splitAt (endLine - startLine + 1) → (spanLines, nextLines)) =
+              splitAt startLine $ T.lines source
+        T.writeFile filename $
+          T.unlines $
+          prevLines ++
+            [ T.take startCol (head spanLines) <>
+              replacement <>
+              T.drop endCol (last spanLines)] ++
+            nextLines
 
-      output ← capture_ $ graphmod ["--quiet"]
-      let graph = op $ parseDotGraph (LT.pack output) ∷ DotGraph String
-      LT.writeFile "Modules.dot" $ printDotGraph graph
+graphModules ∷ IO ()
+graphModules = do
+  output ← capture_ $ graphmod ["--quiet"]
+  let graph = op $ parseDotGraph (LT.pack output) ∷ DotGraph String
+  LT.writeFile "Modules.dot" $ printDotGraph graph
 
-      hasGraphviz ← isGraphvizInstalled
-      if hasGraphviz then do
-        void $ runGraphviz graph Svg "Modules.svg"
-      else pure ()
-  }
+  graphvizInstalled ← isGraphvizInstalled
+  if not graphvizInstalled
+    then return ()
+    else void $ runGraphviz graph Svg "Modules.svg"
 
-op ∷ DotGraph n → DotGraph n
-op graph@DotGraph {..} = graph {graphStatements = opStatement <$> graphStatements}
-  where
-    opStatement (DE edge@DotEdge {..}) =
-      DE edge {fromNode = toNode, toNode = fromNode}
-    opStatement (SG subGraph@DotSG {..}) =
-      SG subGraph {subGraphStmts = opStatement <$> subGraphStmts}
-    opStatement statement = statement
+    where
+      -- |op constructs the op-category of a category by reversing all its arrows
+      op ∷ DotGraph n → DotGraph n
+      op graph@DotGraph {..} = graph {graphStatements = opStatement <$> graphStatements}
+
+      opStatement (DE edge@DotEdge {..}) =
+        DE edge {fromNode = toNode, toNode = fromNode}
+      opStatement (SG subGraph@DotSG {..}) =
+        SG subGraph {subGraphStmts = opStatement <$> subGraphStmts}
+      opStatement statement = statement
