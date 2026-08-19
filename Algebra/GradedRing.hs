@@ -33,28 +33,28 @@ import qualified Prelude as P
 infixl 7 *
 infixr 8 ^
 
-class Grade ring => C (ring :: kind -> Type -> Type) coefficient where
-  (*) :: ring left coefficient -> ring right coefficient -> ring (Product ring left right) coefficient
+class Grade ring ⇒ C (ring ∷ kind → Type → Type) coefficient where
+  (*) ∷ ring left coefficient → ring right coefficient → ring (Product ring left right) coefficient
 
   (^)
-    :: KnownNat exponent
-    => ring grade coefficient
-    -> Proxy exponent
-    -> ring (Power ring grade exponent) coefficient
+    ∷ KnownNat exponent
+    ⇒ ring grade coefficient
+    → Proxy exponent
+    → ring (Power ring grade exponent) coefficient
 
-  one :: ring (Unit ring) coefficient
+  one ∷ ring (Unit ring) coefficient
   one = fromInteger 1
 
-  fromInteger :: Integer -> ring (Unit ring) coefficient
+  fromInteger ∷ Integer → ring (Unit ring) coefficient
 
   {-# MINIMAL (*), (^), fromInteger #-}
 
-class Grade (ring :: kind -> Type -> Type) where
-  type Unit ring :: kind
-  type Product ring (left :: kind) (right :: kind) :: kind
-  type Power ring (grade :: kind) (exponent :: Nat) :: kind
+class Grade (ring ∷ kind → Type → Type) where
+  type Unit ring ∷ kind
+  type Product ring (left ∷ kind) (right ∷ kind) ∷ kind
+  type Power ring (grade ∷ kind) (exponent ∷ Nat) ∷ kind
 
-type family NatToTypeInt (number :: Nat) :: TypeInt.TypeInt where
+type family NatToTypeInt (number ∷ Nat) ∷ TypeInt.TypeInt where
   NatToTypeInt 0 = 'TypeInt.Zero
   NatToTypeInt 1 = 'TypeInt.Pos1
   NatToTypeInt 2 = 'TypeInt.Pos2
@@ -73,7 +73,7 @@ instance Grade Dimensional.Quantity where
   type Power Dimensional.Quantity grade exponent =
     grade Dimensional.^ NatToTypeInt exponent
 
-instance Ring.C coefficient => C Dimensional.Quantity coefficient where
+instance Ring.C coefficient ⇒ C Dimensional.Quantity coefficient where
   left * right =
     Dimensional.coerce
       (Dimensional.unQuantity left Ring.* Dimensional.unQuantity right)
@@ -81,10 +81,10 @@ instance Ring.C coefficient => C Dimensional.Quantity coefficient where
     Dimensional.coerce
       (Dimensional.unQuantity value Ring.^ P.toInteger (natVal exponent))
   fromInteger number =
-    Dimensional.coerce (Ring.fromInteger number :: coefficient)
+    Dimensional.coerce (Ring.fromInteger number ∷ coefficient)
 
-instance Additive.C coefficient => Additive.C (Dimensional.Quantity grade coefficient) where
-  zero = Dimensional.coerce (Additive.zero :: coefficient)
+instance Additive.C coefficient ⇒ Additive.C (Dimensional.Quantity grade coefficient) where
+  zero = Dimensional.coerce (Additive.zero ∷ coefficient)
   left + right =
     Dimensional.coerce
       (Dimensional.unQuantity left Additive.+ Dimensional.unQuantity right)

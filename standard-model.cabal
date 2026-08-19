@@ -12,6 +12,7 @@ custom-setup
     , graphviz
     , silently
     , text
+    , haskell-src-exts
 
 library
   exposed-modules:

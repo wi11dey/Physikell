@@ -49,10 +49,10 @@ infixl 7 >*<
 unit ∷ (Functor f, f ~ Planck m kg s c k, Ring.C r) ⇒ f r
 unit = Planck 1
 
-(>*<) :: (Ring.C x, Coercible (f x) x, Coercible (f' x) x, Applicative (f>*<f')) => f x -> f' x -> (f >*< f') x
+(>*<) ∷ (Ring.C x, Coercible (f x) x, Coercible (f' x) x, Applicative (f>*<f')) ⇒ f x → f' x → (f >*< f') x
 x >*< y = pure (coerce x * coerce y)
 
-(>/<) :: (Field.C x, Coercible (f x) x, Coercible (f' x) x, Applicative (f>/<f')) => f x -> f' x -> (f >/< f') x
+(>/<) ∷ (Field.C x, Coercible (f x) x, Coercible (f' x) x, Applicative (f>/<f')) ⇒ f x → f' x → (f >/< f') x
 x >/< y = pure (coerce x / coerce y)
 
 (>+<) ∷ (Additive.C x, Applicative f) ⇒ f x → f x → f x
@@ -61,8 +61,8 @@ x >+< y = (+) <$> x <*> y
 (>-<) ∷ (Additive.C x, Applicative f) ⇒ f x → f x → f x
 x >-< y = (-) <$> x <*> y
 
-square :: (Coercible (f x) (Square f x), Ring.C x, Functor f) => f x -> Square f x
-square = hypercube (Proxy :: Proxy 2)
+square ∷ (Coercible (f x) (Square f x), Ring.C x, Functor f) ⇒ f x → Square f x
+square = hypercube (Proxy ∷ Proxy 2)
 
 ħ ∷ Ring.C n ⇒ (Joule >*< Second) n
 ħ = undefined -- decons <$> fromSI reducedPlanckConstant
@@ -70,7 +70,7 @@ square = hypercube (Proxy :: Proxy 2)
 mₑ ∷ Transcendental.C n ⇒ Kilogram n
 mₑ = undefined -- decons <$> fromSI electronMass
 
-hypercube :: (KnownNat n, Ring.C x, Functor f, Coercible (f x) ((f^+n) x)) => Proxy n -> f x -> (f^+n) x
+hypercube ∷ (KnownNat n, Ring.C x, Functor f, Coercible (f x) ((f^+n) x)) ⇒ Proxy n → f x → (f^+n) x
 hypercube p = coerce . fmap (^natVal p)
 
 instance Additive.C t ⇒ Additive.C (Planck m kg s c k t) where
@@ -87,9 +87,9 @@ instance Field.C t ⇒ VectorSpace.C t (Planck m kg s c k t)
 instance Field.C t ⇒ DivisibleSpace.C t (Planck m kg s c k t) where
   Planck x </> Planck y = x / y
 
-class Module.C a v ⇒ ModuleFD a v | v -> a
+class Module.C a v ⇒ ModuleFD a v | v → a
 
 instance Ring.C r ⇒ ModuleFD r (Planck m kg s c k r)
 
-(*>) :: ModuleFD a v => a -> v -> v
+(*>) ∷ ModuleFD a v ⇒ a → v → v
 (*>) = (Module.*>)

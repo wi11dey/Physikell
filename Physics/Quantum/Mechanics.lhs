@@ -38,7 +38,7 @@ I try to stay as close to how physicists write as possible within the bounds of 
 > volume ∷ Ring.C r ⇒ [r] → [Metre r]
 > volume = fmap (*> unit @Metre)
 
-> hessian :: (Traversable f, Functor g) ⇒ (∀r. RealTranscendental.C r ⇒ f r → g r) → f r → g (f (f r))
+> hessian ∷ (Traversable f, Functor g) ⇒ (∀r. RealTranscendental.C r ⇒ f r → g r) → f r → g (f (f r))
 > hessian f = undefined
 
 > laplacian ∷ (Functor g, RealTranscendental.C a) ⇒ (∀r.RealTranscendental.C r ⇒ [Metre r] → g r) → [Metre a] → (One >/< Square Metre) (g a)
