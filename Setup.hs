@@ -1,4 +1,5 @@
 {-# OPTIONS_GHC -Wno-x-partial #-}
+-- ^It is fine to have build panic in unexpected scenarios
 
 {-# LANGUAGE BlockArguments #-}
 {-# LANGUAGE OverloadedStrings #-}
