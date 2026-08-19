@@ -15,6 +15,7 @@ custom-setup
     , haskell-src-exts
 
 library
+  ghc-options: -Wunused-imports
   exposed-modules:
       Algebra.GradedRing
       Physics.DimensionalAnalysis

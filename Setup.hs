@@ -1,4 +1,4 @@
-{-# OPTIONS_GHC -Wno-x-partial #-}
+{-# OPTIONS_GHC -Wno-x-partial -Wunused-imports #-}
 -- ^It is fine to have build panic in unexpected scenarios
 
 {-# LANGUAGE BlockArguments #-}
@@ -29,7 +29,6 @@ import Language.Haskell.Exts.Lexer
 import Language.Haskell.Exts.Parser
 import Language.Haskell.Exts.SrcLoc
 import System.IO.Silently
-import Text.Printf
 import qualified Data.Text as T
 import qualified Data.Text.IO as T
 import qualified Data.Text.Lazy as LT
