@@ -18,6 +18,20 @@ packages:
       size: 507
   original:
     hackage: graphmod-1.4.5.1
+- completed:
+    hackage: opencascade-hs-0.6.3.1@sha256:3f15cd6fcda0123134e306358ab6513332e345f82fd5e8fbbd598ac3fe174c1e,17148
+    pantry-tree:
+      sha256: a0067edf060485f1f18d25738e301adb561d20246ec1229c5f63d42e21dd1a24
+      size: 31009
+  original:
+    hackage: opencascade-hs-0.6.3.1
+- completed:
+    hackage: waterfall-cad-0.6.3.1@sha256:122bf5fd3d9fbbf89adb5a79bf24c70849c8a60df63fbd31aab06c1edf5c8385,2481
+    pantry-tree:
+      sha256: e665a1f058f582853e93227d79c0ed21dab8320dbc316644a554e02de34a13f8
+      size: 2598
+  original:
+    hackage: waterfall-cad-0.6.3.1@sha256:122bf5fd3d9fbbf89adb5a79bf24c70849c8a60df63fbd31aab06c1edf5c8385,2481
 snapshots:
 - completed:
     sha256: d836e64ec93e8825278b99561f4a7ef24780c9b29bb5338eec2d693ab3a800cd

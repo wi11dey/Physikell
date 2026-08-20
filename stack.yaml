@@ -1,4 +1,10 @@
 snapshot: lts-24.49
+extra-include-dirs:
+  - /opt/homebrew/opt/opencascade/include/opencascade
+extra-lib-dirs:
+  - /opt/homebrew/opt/opencascade/lib
 extra-deps:
   - physics-0.1.2.1@sha256:5555fb0a679d00964f1fbd8bf1a9b233c91b363b371f092077183fe51bcffba6,1467
   - graphmod-1.4.5.1
+  - opencascade-hs-0.6.3.1
+  - waterfall-cad-0.6.3.1@sha256:122bf5fd3d9fbbf89adb5a79bf24c70849c8a60df63fbd31aab06c1edf5c8385,2481
