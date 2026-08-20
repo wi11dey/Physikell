@@ -10,9 +10,8 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --reinstall --yes binutils graphviz libblas-dev liblapack-dev libocct-data-exchange-dev
+          sudo apt-get install --yes binutils graphviz libblas-dev liblapack-dev libocct-data-exchange-dev
           dot -V
-          ld --version
       - name: Install Stack
         uses: haskell-actions/setup@v2
         with:
@@ -28,6 +27,4 @@ jobs:
           restore-keys: |
             stack-${{ runner.os }}-
       - name: Build
-        env:
-          COMPILER_PATH: /usr/bin
-        run: stack build
+        run: stack build --ghc-options=-pgmlx86_64-linux-gnu-gcc
