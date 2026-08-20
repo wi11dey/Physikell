@@ -27,4 +27,4 @@ jobs:
           restore-keys: |
             stack-${{ runner.os }}-
       - name: Build
-        run: stack build --ghc-options=-pgmlx86_64-linux-gnu-gcc
+        run: stack build --ghc-options=-pgmlx86_64-linux-gnu-gcc --apply-ghc-options=everything
