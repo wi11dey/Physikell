@@ -19,6 +19,13 @@ packages:
   original:
     hackage: graphmod-1.4.5.1
 - completed:
+    hackage: h-raylib-5.6.0.0@sha256:7b060989771f324defc700b9b16955c4d0a35b80ed508217afe23444b18565aa,9075
+    pantry-tree:
+      sha256: 6f11d264f9e8623531e7002ad32adf89928d6f3b6a671a9e1e5be5d86738545d
+      size: 37046
+  original:
+    hackage: h-raylib-5.6.0.0@sha256:7b060989771f324defc700b9b16955c4d0a35b80ed508217afe23444b18565aa,9075
+- completed:
     hackage: opencascade-hs-0.6.3.1@sha256:3f15cd6fcda0123134e306358ab6513332e345f82fd5e8fbbd598ac3fe174c1e,17148
     pantry-tree:
       sha256: a0067edf060485f1f18d25738e301adb561d20246ec1229c5f63d42e21dd1a24
