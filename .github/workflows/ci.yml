@@ -27,4 +27,4 @@ jobs:
           restore-keys: |
             stack-${{ runner.os }}-
       - name: Build
-        run: stack build --ghc-options="-pgmlx86_64-linux-gnu-gcc -optl-no-pie"
+        run: stack build --ghc-options="-pgmlx86_64-linux-gnu-gcc -no-pie"
