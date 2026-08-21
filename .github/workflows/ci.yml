@@ -10,8 +10,7 @@ jobs:
       - name: Install system dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install --yes ghc graphviz libblas-dev liblapack-dev libocct-data-exchange-dev libxi-dev libxinerama-dev libxrandr-dev
-          dot -V
+          sudo apt-get install --yes ghc graphviz libblas-dev liblapack-dev libocct-data-exchange-dev
       - name: Install Stack
         uses: haskell-actions/setup@v2
         with:
