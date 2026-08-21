@@ -40,7 +40,6 @@ library
       ad
     , base
     , dimensional
-    , h-raylib
     , hmatrix
     , numtype-dk
     , numeric-prelude
